@@ -6,7 +6,14 @@ export class RedisStreamService {
   constructor() {
     this.client = createClient({
       url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+      password: process.env.REDIS_PASSWORD,
+      username: process.env.REDIS_USERNAME,
     });
+
+    this.client.on("error", (err) => {
+      console.error("Redis Client Error:", err);
+    });
+
     this.client.connect();
   }
 

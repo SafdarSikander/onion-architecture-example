@@ -1,15 +1,23 @@
 import { Request, Response } from "express";
 import { PublishMessage } from "../../application/useCases/publishMessage";
 import { GetMessages } from "../../application/useCases/getMessages";
-import { TypeOrmMessageRepository } from "../../infrastructure/database/typeormMessageRepository";
-import { TypeOrmUserRepository } from "../../infrastructure/database/typeormUserRepository";
+import { IMessageRepository } from "../../domain/repositories/messageRepository";
+import { IUserRepository } from "../../domain/repositories/userRepository";
+import { AppError } from "../../utils/AppError";
 
 export class MessageController {
-  private messageRepository = new TypeOrmMessageRepository();
-  private userRepository = new TypeOrmUserRepository();
+  constructor(
+    private messageRepository: IMessageRepository,
+    private userRepository: IUserRepository
+  ) {}
 
   async publishMessage(req: Request, res: Response) {
     const { userId, content } = req.body;
+
+    if (!userId || !content) {
+      throw new AppError("UserId and content are required", 400);
+    }
+
     const useCase = new PublishMessage(
       this.messageRepository,
       this.userRepository

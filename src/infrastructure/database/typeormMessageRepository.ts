@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
+import { AppDataSource } from "../../config/dataSource";
 import { Message } from "../../domain/entities/message";
 import { IMessageRepository } from "../../domain/repositories/messageRepository";
-import { AppDataSource } from "../../config/dataSource";
 
 export class TypeOrmMessageRepository implements IMessageRepository {
   private repository: Repository<Message>;

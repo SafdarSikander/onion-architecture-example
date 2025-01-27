@@ -1,7 +1,7 @@
-import { Repository, getRepository } from "typeorm";
+import { Repository } from "typeorm";
+import { AppDataSource } from "../../config/dataSource";
 import { User } from "../../domain/entities/user";
 import { IUserRepository } from "../../domain/repositories/userRepository";
-import { AppDataSource } from "../../config/dataSource";
 
 export class TypeOrmUserRepository implements IUserRepository {
   private repository: Repository<User>;
